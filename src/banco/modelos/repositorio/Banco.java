@@ -19,19 +19,14 @@ public class Banco {
   private String email;
 
   private ArrayList<Cliente> clientes;
-
-  private ArrayList<Conta> contasCorrente;
-
-  private ArrayList<ContaPoupanca> contasPoupanca;
+  private ArrayList<Conta> contas;
 
   public Banco(String nome, String email) {
     this.nome = nome;
-    this.setEmail(email);
+    this.email = email;
 
     this.clientes = new ArrayList<>();
-
-    this.contasCorrente = new ArrayList<>();
-    this.contasPoupanca = new ArrayList<>();
+    this.contas = new ArrayList<>();
   }
 
   public boolean adicionaCliente(Cliente cliente) {
@@ -64,52 +59,29 @@ public class Banco {
     return (ClientePJ) buscaCliente(cnpj);
   }
 
-  public boolean adicionaContaCorrente(Conta conta) {
+  public boolean cadastraConta(Conta conta) {
 
-    if (buscaContaCorrente(conta.getNumero(), conta.getAgencia()) == null) {
-      contasCorrente.add(conta);
+    if (buscaConta(conta.getNumero(), conta.getAgencia()) == null) {
+      contas.add(conta);
       return true;
     }
 
     return false;
   }
 
-  public Conta buscaContaCorrente(String numero, String agencia) {
+  public Conta buscaConta(String numero, String agencia) {
 
-    for (Conta c : contasCorrente) {
+    for (Conta c : contas) {
       if (c.getAgencia().equals(agencia) && c.getNumero().equals(numero)) {
         return c;
       }
     }
 
-    return null;
-  }
-
-  public boolean adicionaContaPoupanca(ContaPoupanca conta) {
-
-    if (buscaContaPoupanca(conta.getNumero(), conta.getAgencia()) == null) {
-      contasPoupanca.add(conta);
-      return true;
-    }
-    return false;
-  }
-
-  public ContaPoupanca buscaContaPoupanca(String numero, String agencia) {
-
-    for (ContaPoupanca c : contasPoupanca) {
-      if (c.getAgencia().equals(agencia) && c.getNumero().equals(numero)) {
-        return c;
-      }
-    }
     return null;
   }
 
   public String getEmail() {
     return email;
-  }
-
-  public void setEmail(String email) {
-    this.email = email;
   }
 
   public String getNome() {
@@ -138,11 +110,29 @@ public class Banco {
     return encontrados;
   }
 
-  public ArrayList<ContatasCorrente() {
-    return this.contasCorrente;
+  public ArrayList<Conta> getContasCorrente() {
+    ArrayList<Conta> contasCorrente = new ArrayList<>();
+
+    for (Conta c : contas) {
+      if (!(c instanceof ContaPoupanca)) {
+        contasCorrente.add(c);
+      }
+
+    }
+
+    return contasCorrente;
   }
 
   public ArrayList<ContaPoupanca> getContasPoupanca() {
-    return this.contasPoupanca;
+    ArrayList<ContaPoupanca> contasPoupanca = new ArrayList<>();
+
+    for (Conta c : contas) {
+      if (c instanceof ContaPoupanca) {
+        contasPoupanca.add((ContaPoupanca) c);
+      }
+
+    }
+
+    return contasPoupanca;
   }
 }

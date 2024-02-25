@@ -1,6 +1,5 @@
 package banco;
 
-import java.lang.FdLibm.Pow;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -36,13 +35,13 @@ public class App {
           buscarCliente();
           break;
         case 3:
-          cadastrarContaSimples();
+          cadastrarNovaConta(TipoConta.SIMPLES);
           break;
         case 4:
-          cadastrarContaEspecial();
+          cadastrarNovaConta(TipoConta.ESPECIAL);
           break;
         case 5:
-          cadastrarContaPoupanca();
+          cadastrarNovaConta(TipoConta.POUPANCA);
           break;
         case 6:
           listarTodosClientes();
@@ -186,7 +185,7 @@ public class App {
       nova = new ContaCorrenteSimples(numero, agencia, cliente);
     }
 
-    if (banco.adicionaContaCorrente(nova)) {
+    if (banco.cadastraConta(nova)) {
       System.out.println("Conta criada com sucesso!");
     } else {
       System.out.println("Nao foi possivel criar conta.");
@@ -236,13 +235,13 @@ public class App {
 
   static void operarConta(TipoTransacao tipo) {
 
-    System.out.println("Digite o número da conta:");
+    System.out.print("Digite o número da conta: ");
     String numero = scan.nextLine();
-    System.out.println("Digite a agência da conta:");
+    System.out.print("Digite a agência da conta: ");
     String agencia = scan.nextLine();
 
-    Contamples = banco.buscaContaCorrente(numero, agencia);
-    if (contaSimples == null) {
+    Conta conta = banco.buscaConta(numero, agencia);
+    if (conta == null) {
       System.out.println("Conta nao encontrada!");
       return;
     }
@@ -251,9 +250,9 @@ public class App {
     double valor = scan.nextDouble();
 
     if (tipo == TipoTransacao.DEPOSITO) {
-      contaSimples.depositar(valor);
+      conta.depositar(valor);
     } else {
-      contaSimples.sacar(valor);
+      conta.sacar(valor);
     }
 
     System.out.println("######");
