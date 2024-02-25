@@ -36,7 +36,7 @@ public class Banco {
     this.contasPoupanca = new ArrayList<>();
   }
 
-  private boolean adicionaCliente(Cliente cliente) {
+  public boolean adicionaCliente(Cliente cliente) {
     if (buscaCliente(cliente.getDocumento()) == null) {
       clientes.add(cliente);
       return true;
@@ -56,18 +56,9 @@ public class Banco {
     return null;
   }
 
-  public boolean adicionaClientePF(ClientePF cliente) {
-    return adicionaCliente(cliente);
-  }
-
   // procurar na coleção de clientes um cliente com o CPF
   public ClientePF buscaClientePF(String cpf) {
     return (ClientePF) buscaCliente(cpf); // percorer todos os clientes
-  }
-
-  public boolean adicionaClientePJ(ClientePJ cliente) {
-
-    return adicionaCliente(cliente);
   }
 
   public ClientePJ buscaClientePJ(String cnpj) {
