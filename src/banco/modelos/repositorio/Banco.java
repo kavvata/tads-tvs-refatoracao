@@ -5,8 +5,7 @@ import java.util.ArrayList;
 import banco.modelos.clientes.Cliente;
 import banco.modelos.clientes.ClientePF;
 import banco.modelos.clientes.ClientePJ;
-import banco.modelos.contas.ContaCorrenteEspecial;
-import banco.modelos.contas.ContaCorrenteSimples;
+import banco.modelos.contas.ContaCorrente;
 import banco.modelos.contas.ContaPoupanca;
 
 //DRY
@@ -21,8 +20,8 @@ public class Banco {
 
   private ArrayList<Cliente> clientes;
 
-  private ArrayList<ContaCorrenteSimples> contasSimples;
-  private ArrayList<ContaCorrenteEspecial> contasEspecial;
+  private ArrayList<ContaCorrente> contasCorrente;
+
   private ArrayList<ContaPoupanca> contasPoupanca;
 
   public Banco(String nome, String email) {
@@ -31,8 +30,7 @@ public class Banco {
 
     this.clientes = new ArrayList<>();
 
-    this.contasSimples = new ArrayList<>();
-    this.contasEspecial = new ArrayList<>();
+    this.contasCorrente = new ArrayList<>();
     this.contasPoupanca = new ArrayList<>();
   }
 
@@ -44,7 +42,7 @@ public class Banco {
     return false;
   }
 
-  private Cliente buscaCliente(String doc) {
+  public Cliente buscaCliente(String doc) {
 
     for (int i = 0; i < clientes.size(); i++) {
       Cliente cliente = clientes.get(i);
@@ -66,41 +64,24 @@ public class Banco {
     return (ClientePJ) buscaCliente(cnpj);
   }
 
-  public boolean adicionaContaSimples(ContaCorrenteSimples conta) {
+  public boolean adicionaContaCorrente(ContaCorrente conta) {
 
-    if (buscaContaSimples(conta.getNumero(), conta.getAgencia()) == null) {
-      contasSimples.add(conta);
+    if (buscaContaCorrente(conta.getNumero(), conta.getAgencia()) == null) {
+      contasCorrente.add(conta);
       return true;
     }
+
     return false;
   }
 
-  public ContaCorrenteSimples buscaContaSimples(String numero, String agencia) {
+  public ContaCorrente buscaContaCorrente(String numero, String agencia) {
 
-    for (ContaCorrenteSimples c : contasSimples) {
+    for (ContaCorrente c : contasCorrente) {
       if (c.getAgencia().equals(agencia) && c.getNumero().equals(numero)) {
         return c;
       }
     }
-    return null;
-  }
 
-  public boolean adicionaContaEspecial(ContaCorrenteEspecial conta) {
-
-    if (buscaContaEspecial(conta.getNumero(), conta.getAgencia()) == null) {
-      contasEspecial.add(conta);
-      return true;
-    }
-    return false;
-  }
-
-  public ContaCorrenteEspecial buscaContaEspecial(String numero, String agencia) {
-
-    for (ContaCorrenteEspecial c : contasEspecial) {
-      if (c.getAgencia().equals(agencia) && c.getNumero().equals(numero)) {
-        return c;
-      }
-    }
     return null;
   }
 
@@ -135,20 +116,30 @@ public class Banco {
     return this.nome;
   }
 
-  public ArrayList<Cliente> getClientesPF() {
-    return this.clientes;
+  public ArrayList<ClientePF> getClientesPF() {
+    ArrayList<ClientePF> encontrados = new ArrayList<>();
+
+    for (Cliente c : clientes) {
+      if (c instanceof ClientePF) {
+        encontrados.add((ClientePF) c);
+      }
+    }
+    return encontrados;
   }
 
-  public ArrayList<Cliente> getClientesPJ() {
-    return this.clientes;
+  public ArrayList<ClientePJ> getClientesPJ() {
+    ArrayList<ClientePJ> encontrados = new ArrayList<>();
+
+    for (Cliente c : clientes) {
+      if (c instanceof ClientePJ) {
+        encontrados.add((ClientePJ) c);
+      }
+    }
+    return encontrados;
   }
 
-  public ArrayList<ContaCorrenteSimples> getContasSimples() {
-    return this.contasSimples;
-  }
-
-  public ArrayList<ContaCorrenteEspecial> getContasEspecial() {
-    return this.contasEspecial;
+  public ArrayList<ContaCorrente> getContasCorrente() {
+    return this.contasCorrente;
   }
 
   public ArrayList<ContaPoupanca> getContasPoupanca() {
