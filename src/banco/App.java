@@ -42,27 +42,7 @@ public class App {
           break;
 
         case 5:
-          System.out.println("Digite o cpf do cliente:");
-          cpf = scan.nextLine();
-          clientePF = banco.buscaClientePF(cpf);
-          if (clientePF != null) {
-            System.out.println("Cliente encontrado!");
-            System.out.println("Digite o número da conta:");
-            numero = scan.nextLine();
-            System.out.println("Digite a agência da conta:");
-            agencia = scan.nextLine();
-
-            contaSimples = new ContaCorrenteSimples(numero, agencia, clientePF);
-
-            if (banco.adicionaContaSimples(contaSimples)) {
-              System.out.println("Conta criada com sucesso!!");
-            } else {
-              System.out.println("Não foi possível criar a conta!");
-            }
-          } else {
-            System.out.println("Cliente não encontrado!");
-          }
-          System.out.println("######");
+          cadastrarContaSimples();
           break;
         case 6:
           System.out.println("Digite o cpf do cliente:");
@@ -211,7 +191,7 @@ public class App {
     System.out.println("12 - sacar de uma conta Simples");
 
     System.out.println("0 - Sair");
-    System.out.println("Digite uma opção:");
+    System.out.print("> ");
 
   }
 
@@ -256,6 +236,7 @@ public class App {
 
     System.out.println("######");
   }
+
   private static Cliente buscarCliente() {
     final int TIPO_FISICO = 1;
     final int TIPO_JURIDICO = 2;
@@ -282,5 +263,27 @@ public class App {
 
     System.out.println("######");
     return encontrado;
+  }
+
+  private static void cadastrarContaSimples() {
+    Cliente cliente = buscarCliente();
+    if (cliente == null) {
+      System.out.println("Cliente nao encontrado.");
+      return;
+    }
+
+    System.out.println("Cliente encontrado!");
+    System.out.println("Digite o número da conta:");
+    String numero = scan.nextLine();
+    System.out.println("Digite a agência da conta:");
+    String agencia = scan.nextLine();
+
+    ContaCorrenteSimples contaSimples = new ContaCorrenteSimples(numero, agencia, cliente);
+
+    if (banco.adicionaContaCorrente(contaSimples)) {
+      System.out.println("Conta criada com sucesso!");
+    } else {
+      System.out.println("Nao foi possivel criar conta.");
+    }
   }
 }
