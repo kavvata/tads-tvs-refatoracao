@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import banco.modelos.clientes.Cliente;
 import banco.modelos.clientes.ClientePF;
 import banco.modelos.clientes.ClientePJ;
-import banco.modelos.contas.ContaCorrente;
+import banco.modelos.contas.Conta;
 import banco.modelos.contas.ContaPoupanca;
 
 //DRY
@@ -20,7 +20,7 @@ public class Banco {
 
   private ArrayList<Cliente> clientes;
 
-  private ArrayList<ContaCorrente> contasCorrente;
+  private ArrayList<Conta> contasCorrente;
 
   private ArrayList<ContaPoupanca> contasPoupanca;
 
@@ -64,7 +64,7 @@ public class Banco {
     return (ClientePJ) buscaCliente(cnpj);
   }
 
-  public boolean adicionaContaCorrente(ContaCorrente conta) {
+  public boolean adicionaContaCorrente(Conta conta) {
 
     if (buscaContaCorrente(conta.getNumero(), conta.getAgencia()) == null) {
       contasCorrente.add(conta);
@@ -74,9 +74,9 @@ public class Banco {
     return false;
   }
 
-  public ContaCorrente buscaContaCorrente(String numero, String agencia) {
+  public Conta buscaContaCorrente(String numero, String agencia) {
 
-    for (ContaCorrente c : contasCorrente) {
+    for (Conta c : contasCorrente) {
       if (c.getAgencia().equals(agencia) && c.getNumero().equals(numero)) {
         return c;
       }
@@ -138,7 +138,7 @@ public class Banco {
     return encontrados;
   }
 
-  public ArrayList<ContaCorrente> getContasCorrente() {
+  public ArrayList<ContatasCorrente() {
     return this.contasCorrente;
   }
 

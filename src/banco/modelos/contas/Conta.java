@@ -2,7 +2,7 @@ package banco.modelos.contas;
 
 import banco.modelos.clientes.Cliente;
 
-public abstract class ContaCorrente {
+public abstract class Conta {
 
   // atributos => caracteristicas
   private String numero;
@@ -12,14 +12,14 @@ public abstract class ContaCorrente {
   private Cliente dono;
 
   // métodos => ações
-  public ContaCorrente(String numero, String agencia, Cliente dono, double saldo) {
+  public Conta(String numero, String agencia, Cliente dono, double saldo) {
     this.numero = numero;
     this.agencia = agencia;
     this.saldo = saldo;
     this.dono = dono;
   }
 
-  public ContaCorrente(String numero, String agencia, Cliente dono) {
+  public Conta(String numero, String agencia, Cliente dono) {
     this(numero, agencia, dono, 0.0);
   }
 

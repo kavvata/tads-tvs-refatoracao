@@ -2,7 +2,7 @@ package banco.modelos.contas;
 
 import banco.modelos.clientes.Cliente;
 
-public class ContaPoupanca extends ContaCorrente {
+public class ContaPoupanca extends Conta {
 
   private double txRendimento;
 
@@ -13,8 +13,8 @@ public class ContaPoupanca extends ContaCorrente {
     this.txRendimento = txRendimento;
   }
 
-  public ContaPoupanca(String numero, String agencia, Cliente dono) {
-    this(numero, agencia, dono, 0.0, 0.1);
+  public ContaPoupanca(String numero, String agencia, Cliente dono, double txRendimento) {
+    this(numero, agencia, dono, 0.1, txRendimento);
   }
 
   public void render() {

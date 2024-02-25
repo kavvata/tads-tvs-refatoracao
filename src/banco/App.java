@@ -1,16 +1,19 @@
 package banco;
 
+import java.lang.FdLibm.Pow;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import banco.modelos.repositorio.Banco;
 import banco.modelos.clientes.Cliente;
 import banco.modelos.clientes.ClientePF;
 import banco.modelos.clientes.ClientePJ;
-import banco.modelos.contas.ContaCorrente;
+import banco.modelos.contas.Conta;
 import banco.modelos.contas.ContaCorrenteEspecial;
 import banco.modelos.contas.ContaCorrenteSimples;
 import banco.modelos.contas.ContaPoupanca;
+import banco.modelos.contas.TipoTransacao;
+import banco.modelos.contas.TipoConta;
+import banco.modelos.repositorio.Banco;
 
 public class App {
   private static Scanner scan = new Scanner(System.in);
@@ -48,10 +51,10 @@ public class App {
           listarTodasContas();
           break;
         case 8:
-          depositar();
+          operarConta(TipoTransacao.DEPOSITO);
           break;
         case 9:
-          sacar();
+          operarConta(TipoTransacao.SAQUE);
           break;
         default:
           System.out.println("Opção inválida!");
@@ -149,7 +152,7 @@ public class App {
     return encontrado;
   }
 
-  private static void cadastrarContaSimples() {
+  private static void cadastrarNovaConta(TipoConta tipo) {
     Cliente cliente = buscarCliente();
     if (cliente == null) {
       System.out.println("Cliente nao encontrado.");
@@ -157,67 +160,36 @@ public class App {
     }
 
     System.out.println("Cliente encontrado!");
+
     System.out.println("Digite o número da conta:");
     String numero = scan.nextLine();
     System.out.println("Digite a agência da conta:");
     String agencia = scan.nextLine();
 
-    ContaCorrente contaSimples = new ContaCorrenteSimples(numero, agencia, cliente);
+    Conta nova;
 
-    if (banco.adicionaContaCorrente(contaSimples)) {
+    if (tipo == TipoConta.POUPANCA) {
+      System.out.println("Digite a taxa de rendimento:");
+      double taxaRendimento = scan.nextDouble();
+
+      nova = new ContaPoupanca(numero, agencia, cliente, taxaRendimento);
+    }
+
+    else if (tipo == TipoConta.ESPECIAL) {
+      System.out.println("Digite o limite da conta:");
+      double limite = scan.nextDouble();
+
+      nova = new ContaCorrenteEspecial(numero, agencia, cliente, limite);
+    }
+
+    else {
+      nova = new ContaCorrenteSimples(numero, agencia, cliente);
+    }
+
+    if (banco.adicionaContaCorrente(nova)) {
       System.out.println("Conta criada com sucesso!");
     } else {
       System.out.println("Nao foi possivel criar conta.");
-    }
-  }
-
-  private static void cadastrarContaEspecial() {
-    Cliente cliente = buscarCliente();
-    if (cliente == null) {
-      System.out.println("Cliente nao encontrado.");
-      return;
-    }
-
-    System.out.println("Cliente encontrado!");
-    System.out.println("Digite o número da conta:");
-    String numero = scan.nextLine();
-    System.out.println("Digite a agência da conta:");
-    String agencia = scan.nextLine();
-    System.out.println("Digite o limite da conta:");
-    double limite = scan.nextDouble();
-
-    ContaCorrente novaConta = new ContaCorrenteEspecial(numero, agencia, cliente, 0.0, limite);
-
-    if (banco.adicionaContaCorrente(novaConta)) {
-      System.out.println("Conta criada com sucesso!!");
-    } else {
-      System.out.println("Não foi possível criar a conta!");
-    }
-    System.out.println("######");
-  }
-
-  private static void cadastrarContaPoupanca() {
-    Cliente cliente = buscarCliente();
-    if (cliente == null) {
-      System.out.println("Cliente nao encontrado.");
-      return;
-    }
-
-    System.out.println("Cliente encontrado!");
-    System.out.println("Digite o número da conta:");
-    String numero = scan.nextLine();
-    System.out.println("Digite a agência da conta:");
-    String agencia = scan.nextLine();
-    System.out.println("Digite a taxa de rendimento:");
-    double txRendimento = scan.nextDouble();
-
-    ContaPoupanca nova = new ContaPoupanca(numero, agencia, cliente);
-    nova.setTxRendimento(txRendimento);
-
-    if (banco.adicionaContaPoupanca(nova)) {
-      System.out.println("Conta criada com sucesso!!");
-    } else {
-      System.out.println("Não foi possível criar a conta!");
     }
 
     System.out.println("######");
@@ -238,19 +210,19 @@ public class App {
   }
 
   private static void listarTodasContas() {
-    ArrayList<ContaCorrente> contasCorrente = banco.getContasCorrente();
+    ArrayList<Conta> contasCorrente = banco.getContasCorrente();
 
     System.out.println("Listando todas as contas");
 
     System.out.println("---Simples---");
-    for (ContaCorrente conta : contasCorrente) {
+    for (Conta conta : contasCorrente) {
       if (conta instanceof ContaCorrenteSimples) {
         System.out.println("\t" + conta.toString());
       }
     }
 
     System.out.println("---Especial---");
-    for (ContaCorrente conta : contasCorrente) {
+    for (Conta conta : contasCorrente) {
       if (conta instanceof ContaCorrenteEspecial) {
         System.out.println("\t" + conta.toString());
       }
@@ -262,13 +234,14 @@ public class App {
     System.out.println("######");
   }
 
-  static void depositar() {
+  static void operarConta(TipoTransacao tipo) {
+
     System.out.println("Digite o número da conta:");
     String numero = scan.nextLine();
     System.out.println("Digite a agência da conta:");
     String agencia = scan.nextLine();
 
-    ContaCorrente contaSimples = banco.buscaContaCorrente(numero, agencia);
+    Contamples = banco.buscaContaCorrente(numero, agencia);
     if (contaSimples == null) {
       System.out.println("Conta nao encontrada!");
       return;
@@ -276,26 +249,12 @@ public class App {
 
     System.out.println("Digite o valor:");
     double valor = scan.nextDouble();
-    contaSimples.depositar(valor);
 
-    System.out.println("######");
-  }
-
-  static void sacar() {
-    System.out.println("Digite o número da conta:");
-    String numero = scan.nextLine();
-    System.out.println("Digite a agência da conta:");
-    String agencia = scan.nextLine();
-
-    ContaCorrente contaSimples = banco.buscaContaCorrente(numero, agencia);
-    if (contaSimples == null) {
-      System.out.println("Conta nao encontrada!");
-      return;
+    if (tipo == TipoTransacao.DEPOSITO) {
+      contaSimples.depositar(valor);
+    } else {
+      contaSimples.sacar(valor);
     }
-
-    System.out.println("Digite o valor:");
-    double valor = scan.nextDouble();
-    contaSimples.sacar(valor);
 
     System.out.println("######");
   }

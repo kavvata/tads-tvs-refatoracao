@@ -2,7 +2,7 @@ package banco.modelos.contas;
 
 import banco.modelos.clientes.Cliente;
 
-public class ContaCorrenteEspecial extends ContaCorrente {
+public class ContaCorrenteEspecial extends Conta {
 
   private double limite;
 
@@ -12,8 +12,8 @@ public class ContaCorrenteEspecial extends ContaCorrente {
     this.limite = limite;
   }
 
-  public ContaCorrenteEspecial(String numero, String agencia, Cliente dono) {
-    this(numero, agencia, dono, 0.0, 0.0);
+  public ContaCorrenteEspecial(String numero, String agencia, Cliente dono, double limite) {
+    this(numero, agencia, dono, 0.0, limite);
   }
 
   @Override

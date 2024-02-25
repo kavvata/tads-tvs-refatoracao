@@ -2,7 +2,7 @@ package banco.modelos.contas;
 
 import banco.modelos.clientes.Cliente;
 
-public class ContaCorrenteSimples extends ContaCorrente {
+public class ContaCorrenteSimples extends Conta {
 
   // métodos => ações
   public ContaCorrenteSimples(String numero, String agencia, Cliente dono, double saldo) {
