@@ -16,9 +16,8 @@ public class App {
 
   public static void main(String[] args) throws Exception {
 
-    String cpf, agencia, numero, cnpj;
+    String cpf, agencia, numero;
     ClientePF clientePF;
-    ClientePJ clientePJ;
     ContaCorrenteSimples contaSimples;
     ContaCorrenteEspecial contaEspecial;
     ContaPoupanca contaPoupanca;
@@ -35,28 +34,11 @@ public class App {
           cadastrarNovoCliente();
           break;
         case 2:
-          System.out.println("Digite o cpf do cliente:");
-          cpf = scan.nextLine();
-          clientePF = banco.buscaClientePF(cpf);
-          if (clientePF != null) {
-            System.out.println(clientePF);
-          } else {
-            System.out.println("Cliente não encontrado!");
-          }
-          System.out.println("######");
+          buscarCliente();
           break;
         case 3:
           break;
         case 4:
-          System.out.println("Digite o cnpj do cliente:");
-          cnpj = scan.nextLine();
-          clientePJ = banco.buscaClientePJ(cnpj);
-          if (clientePJ != null) {
-            System.out.println(clientePJ);
-          } else {
-            System.out.println("Cliente não encontrado!");
-          }
-          System.out.println("######");
           break;
 
         case 5:
@@ -215,10 +197,7 @@ public class App {
 
   private static void showMenu() {
     System.out.println("1 - cadastrar novo cliente");
-    System.out.println("2 - buscar cliente por cpf");
-
-    System.out.println("3 - cadastrar cliente PJ");
-    System.out.println("4 - buscar cliente por cnpj");
+    System.out.println("2 - buscar cliente");
 
     System.out.println("5 - cadastrar conta Simples");
     System.out.println("6 - cadastrar conta Especial");
@@ -276,5 +255,32 @@ public class App {
     }
 
     System.out.println("######");
+  }
+  private static Cliente buscarCliente() {
+    final int TIPO_FISICO = 1;
+    final int TIPO_JURIDICO = 2;
+
+    int tipoCliente = 0;
+
+    while (tipoCliente != TIPO_FISICO || tipoCliente != TIPO_JURIDICO) {
+      System.out.print("Tipo de cliente? \n1 - Fisico\n2 - Juridico\n> ");
+      tipoCliente = scan.nextInt();
+    }
+
+    String documentoCliente = "";
+
+    System.out.print("Digite o " + (tipoCliente == TIPO_FISICO ? "CPF" : "CNPJ") + "do cliente: ");
+    documentoCliente = scan.nextLine();
+
+    Cliente encontrado = banco.buscaCliente(documentoCliente);
+
+    if (encontrado == null) {
+      System.out.println("Cliente não encontrado!");
+    } else {
+      System.out.println(encontrado);
+    }
+
+    System.out.println("######");
+    return encontrado;
   }
 }
