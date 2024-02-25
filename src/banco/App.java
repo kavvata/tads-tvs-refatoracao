@@ -11,6 +11,13 @@ import  banco.modelos.ContaCorrente;
 import  banco.modelos.ContaCorrenteEspecial;
 import  banco.modelos.ContaCorrenteSimples;
 import  banco.modelos.ContaPoupanca;
+import banco.modelos.repositorio.Banco;
+import banco.modelos.clientes.Cliente;
+import banco.modelos.clientes.ClientePF;
+import banco.modelos.clientes.ClientePJ;
+import banco.modelos.contas.ContaCorrenteEspecial;
+import banco.modelos.contas.ContaCorrenteSimples;
+import banco.modelos.contas.ContaPoupanca;
 
 public class App {
 
