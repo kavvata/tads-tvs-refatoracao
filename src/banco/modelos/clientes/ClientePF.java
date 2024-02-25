@@ -17,10 +17,6 @@ public class ClientePF extends Cliente {
     return this.cpf;
   }
 
-  public String getCpf() {
-    return this.cpf;
-  }
-
   public int getAnoNascimento() {
     return this.anoNascimento;
   }

@@ -25,10 +25,6 @@ public class ClientePJ extends Cliente {
     this.numeroFuncionarios = numeroFuncionarios;
   }
 
-  public String getCnpj() {
-    return cnpj;
-  }
-
   public String toString() {
     return "Nome:" + getNome() + " e-mail" + getEmail() + "CNPJ:" + cnpj + " funcionarios:" + numeroFuncionarios;
   }

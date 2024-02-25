@@ -2,7 +2,7 @@ package banco.modelos.contas;
 
 import banco.modelos.clientes.Cliente;
 
-public class ContaCorrente {
+public abstract class ContaCorrente {
 
   // atributos => caracteristicas
   private String numero;
