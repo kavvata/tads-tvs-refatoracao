@@ -52,6 +52,7 @@ public class App {
         int opcao, anoNascimento, numeroFuncionarios;
 
         Banco banco = new Banco("Bando teste", "teste@banco.com");
+        Banco banco = new Banco("Banco teste", "teste@banco.com");
 
         showMenu();
         opcao = scan.nextInt();
